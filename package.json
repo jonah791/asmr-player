@@ -1,7 +1,7 @@
 {
   "name": "asmr-player",
   "version": "1.0.0",
-  "description": "ASMR Immersive Player",
+  "description": "🎧 沉浸式同人音声播放器 — 支持 RJ 作品管理、双耳可视化、多格式字幕(VTT/LRC/SRT/ASS)、10段均衡器、独立声道控制与分支路线选择。Electron + React + TypeScript + Web Audio API",
   "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
