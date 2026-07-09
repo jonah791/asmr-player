@@ -1,0 +1,33 @@
+appId: com.asmr.player
+productName: ASMR Player
+copyright: Copyright 2026
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: "${productName}-Setup-${version}.${ext}"
+  requestedExecutionLevel: asInvoker
+  legalTrademarks: ""
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: ASMR Player
+  uninstallDisplayName: ASMR Player
+
+extraMetadata:
+  main: dist-electron/main.js

@@ -1,0 +1,256 @@
+:root {
+  --bg-deepest: #08060e;
+  --bg-primary: #0d0a14;
+  --bg-secondary: #120e1a;
+  --bg-tertiary: #1a1530;
+  --bg-elevated: #221c3a;
+  --bg-hover: #2a2248;
+
+  /* ── 自适应尺寸系统 ── */
+  /* 宽度相关 */
+  --sidebar-width: 44px;
+  --panel-width: clamp(280px, 25vw, 420px);
+
+  /* 间距系统 */
+  --space-2xs: clamp(2px, 0.2vw, 4px);
+  --space-xs:  clamp(4px, 0.4vw, 8px);
+  --space-sm:  clamp(6px, 0.6vw, 12px);
+  --space-md:  clamp(8px, 0.8vw, 16px);
+  --space-lg:  clamp(12px, 1.2vw, 20px);
+  --space-xl:  clamp(16px, 1.6vw, 28px);
+  --space-2xl: clamp(20px, 2vw, 36px);
+
+  /* 字体系统 */
+  --text-2xs: clamp(8px,  0.6vw, 10px);
+  --text-xs:  clamp(9px,  0.7vw, 11px);
+  --text-sm:  clamp(10px, 0.8vw, 12px);
+  --text-md:  clamp(12px, 0.9vw, 14px);
+  --text-lg:  clamp(14px, 1.1vw, 18px);
+  --text-xl:  clamp(18px, 1.4vw, 24px);
+
+  /* 控件尺寸 */
+  --btn-xs: clamp(20px, 1.5vw, 28px);
+  --btn-sm: clamp(28px, 2vw, 36px);
+  --btn-md: clamp(36px, 2.5vw, 48px);
+
+  /* 封面尺寸 */
+  --cover-sm: clamp(32px, 2.5vw, 48px);
+  --cover-lg: clamp(120px, 14vw, 280px);
+
+  /* 可视化高度 */
+  --viz-height: clamp(60px, 8vh, 120px);
+
+  /* 进度条高度 */
+  --slider-height: clamp(3px, 0.3vw, 5px);
+  --slider-thumb: clamp(12px, 1vw, 16px);
+
+  /* 窗口控制按钮 */
+  --win-btn-size: clamp(28px, 2vw, 34px);
+
+  --glass-bg: rgba(18, 14, 26, 0.75);
+  --glass-border: rgba(155, 109, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  --accent: #9b6dff;
+  --accent-hover: #b08aff;
+  --accent-glow: rgba(155, 109, 255, 0.3);
+  --accent-dim: rgba(155, 109, 255, 0.12);
+
+  --gradient-accent: linear-gradient(135deg, #9b6dff, #c084fc);
+  --gradient-warm: linear-gradient(135deg, #f472b6, #fb7185);
+  --gradient-bg: linear-gradient(180deg, #0d0a14 0%, #120e1a 50%, #0a0710 100%);
+
+  --text-primary: #f0ecf9;
+  --text-secondary: #a89bc2;
+  --text-muted: #6b5f82;
+  --text-dim: #483d5a;
+
+  --green: #34d399;
+  --red: #f87171;
+  --blue: #60a5fa;
+  --orange: #fb923c;
+  --pink: #f472b6;
+
+  --border: rgba(155, 109, 255, 0.08);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+
+  --transition-fast: 0.12s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow: 0.35s ease-out;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-deepest);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: var(--gradient-bg);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  border-radius: 50%;
+  background: var(--gradient-accent);
+  border: 2px solid var(--bg-secondary);
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+input[type="checkbox"] {
+  accent-color: var(--accent);
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ── 响应式断点 ── */
+@media (max-width: 900px) {
+  :root {
+    --panel-width: 0px;
+  }
+  .panel-overlay {
+    position: fixed;
+    inset: 40px 0 0 44px;
+    z-index: 50;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --panel-width: clamp(360px, 22vw, 480px);
+  }
+}
+
+@media (min-width: 2000px) {
+  :root {
+    --panel-width: clamp(400px, 20vw, 560px);
+    --cover-lg: clamp(160px, 16vw, 360px);
+  }
+}
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-light {
+  background: rgba(18, 14, 26, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.glow-accent {
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-scale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px var(--accent-glow); }
+  50% { box-shadow: 0 0 24px var(--accent-glow); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.panel-enter {
+  animation: fade-up var(--transition-slow);
+}
+
+.subtitle-fade {
+  animation: fade-up 0.3s ease;
+}
+.subtitle-left {
+  animation: slide-in-left 0.3s ease;
+}
+.subtitle-right {
+  animation: slide-in-right 0.3s ease;
+}
