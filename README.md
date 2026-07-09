@@ -208,6 +208,10 @@ npm run dist:nsis    # 安装包
 
 ## 许可证
 
-MIT License
+本软件采用 **个人非商业许可证**。
 
-Copyright © 2026
+- ✅ 个人学习、研究、非商业使用 — 自由使用
+- ❌ 商业用途、销售、集成到商业产品 — 禁止
+- 详见 [LICENSE](./LICENSE) 文件
+
+Copyright © 2026 jonah791
