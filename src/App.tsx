@@ -14,8 +14,9 @@ import { Visualization } from './components/ASMR/Visualization'
 import { SubtitlePanel } from './components/Subtitle/SubtitlePanel'
 import { SubtitleSettings } from './components/Subtitle/SubtitleSettings'
 import { TranscriptPanel } from './components/Subtitle/TranscriptPanel'
+import { ASMRPanel } from './components/ASMR/ASMRPanel'
 
-type Panel = 'none' | 'playlist' | 'channel' | 'eq' | 'subtitle' | 'transcript'
+type Panel = 'none' | 'playlist' | 'channel' | 'eq' | 'subtitle' | 'transcript' | 'asmr'
 
 function TabIcon({ panel }: { panel: Panel }) {
   const props = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '1.5', style: { width: 'var(--text-lg)', height: 'var(--text-lg)', display: 'block' } as React.CSSProperties }
@@ -25,12 +26,14 @@ function TabIcon({ panel }: { panel: Panel }) {
     case 'subtitle': return <svg {...props}><rect x="3" y="3" width="18" height="18" rx="2" /><line x1="7" y1="9" x2="17" y2="9" /><line x1="7" y1="12" x2="15" y2="12" /><line x1="7" y1="15" x2="13" y2="15" /></svg>
     case 'channel': return <svg {...props}><path d="M3 18v-4a5 5 0 015-5h8a5 5 0 015 5v4" /><circle cx="12" cy="7" r="4" /></svg>
     case 'eq': return <svg {...props}><line x1="4" y1="21" x2="4" y2="14" /><line x1="4" y1="14" x2="4" y2="14" strokeWidth="2" stroke="currentColor" /><line x1="9" y1="21" x2="9" y2="10" /><line x1="9" y1="10" x2="9" y2="10" strokeWidth="2" stroke="currentColor" /><line x1="14" y1="21" x2="14" y2="6" /><line x1="14" y1="6" x2="14" y2="6" strokeWidth="2" stroke="currentColor" /><line x1="19" y1="21" x2="19" y2="2" /><line x1="19" y1="2" x2="19" y2="2" strokeWidth="2" stroke="currentColor" /></svg>
+    case 'asmr': return <svg {...props}><circle cx="12" cy="12" r="10" /><path d="M9 8v8l7-4-7-4z" /><path d="M7 8h10M7 12h10M7 16h10" opacity="0.3" strokeWidth="1" /></svg>
   }
 }
 
 const TAB_CONFIG: { key: Panel; title: string }[] = [
   { key: 'playlist', title: '媒体库' }, { key: 'transcript', title: '台本' },
-  { key: 'subtitle', title: '字幕' }, { key: 'channel', title: '声道' }, { key: 'eq', title: '均衡器' }
+  { key: 'subtitle', title: '字幕' }, { key: 'channel', title: '声道' }, { key: 'eq', title: '均衡器' },
+  { key: 'asmr', title: 'ASMR.one' }
 ]
 
 export default function App() {
@@ -132,6 +135,7 @@ export default function App() {
       {activePanel === 'subtitle' && <SubtitleSettings />}
       {activePanel === 'channel' && <ChannelControl left={settings.channelLeft} right={settings.channelRight} onChange={updateChannel} />}
       {activePanel === 'eq' && <Equalizer bands={settings.eqBands} preset={settings.eqPreset} onChange={updateEQ} onPresetChange={setEQPreset} />}
+      {activePanel === 'asmr' && <ASMRPanel />}
     </div>
   ) : null
 

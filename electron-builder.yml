@@ -16,7 +16,9 @@ win:
     - target: nsis
       arch:
         - x64
-  artifactName: "${productName}-Setup-${version}.${ext}"
+    - target: portable
+      arch:
+        - x64
   requestedExecutionLevel: asInvoker
   legalTrademarks: ""
 
@@ -28,6 +30,10 @@ nsis:
   createStartMenuShortcut: true
   shortcutName: ASMR Player
   uninstallDisplayName: ASMR Player
+  artifactName: "${productName}-Setup-${version}.${ext}"
+
+portable:
+  artifactName: "${productName}-Portable-${version}.exe"
 
 extraMetadata:
   main: dist-electron/main.js
