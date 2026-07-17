@@ -56,6 +56,7 @@ interface ASMRConfig {
 
 interface KikoeruVA { id: string | number; name: string }
 interface KikoeruTag { id: number; name: string; upvote?: number; downvote?: number }
+interface LocalFavorite { id: number; title: string; coverUrl: string; addedAt: number }
 interface KikoeruWork {
   id: number; title: string; circle_id: number; name: string
   vas: KikoeruVA[]; tags: KikoeruTag[]; age: string; release: string
@@ -349,6 +350,55 @@ class ASMRClient {
   /** 获取封面 URL（官方 API 返回 mainCoverUrl 字段，不需要构造） */
   getCoverUrl(_workId: number): string {
     return ''  // 使用 work.mainCoverUrl 字段
+  }
+
+  // ─── 收藏管理（本地存储） ──────────────────────────────────
+
+  private favoritesPath(): string {
+    return path.join(app.getPath('userData'), 'asmr-favorites.json')
+  }
+
+  private loadFavoritesFromDisk(): LocalFavorite[] {
+    try {
+      const p = this.favoritesPath()
+      if (fs.existsSync(p)) return JSON.parse(fs.readFileSync(p, 'utf-8'))
+    } catch { /* ignore */ }
+    return []
+  }
+
+  private saveFavoritesToDisk(favs: LocalFavorite[]): void {
+    const p = this.favoritesPath()
+    fs.mkdirSync(path.dirname(p), { recursive: true })
+    fs.writeFileSync(p, JSON.stringify(favs, null, 2), 'utf-8')
+  }
+
+  /** 获取所有收藏 */
+  getLocalFavorites(): LocalFavorite[] {
+    return this.loadFavoritesFromDisk()
+  }
+
+  /** 添加收藏 */
+  addLocalFavorite(work: { id: number; title: string; mainCoverUrl?: string; thumbnailCoverUrl?: string }): void {
+    const favs = this.loadFavoritesFromDisk()
+    if (favs.some(f => f.id === work.id)) return
+    favs.push({
+      id: work.id,
+      title: work.title,
+      coverUrl: work.mainCoverUrl || work.thumbnailCoverUrl || '',
+      addedAt: Date.now()
+    })
+    this.saveFavoritesToDisk(favs)
+  }
+
+  /** 取消收藏 */
+  removeLocalFavorite(workId: number): void {
+    const favs = this.loadFavoritesFromDisk().filter(f => f.id !== workId)
+    this.saveFavoritesToDisk(favs)
+  }
+
+  /** 检查是否已收藏 */
+  isFavorited(workId: number): boolean {
+    return this.loadFavoritesFromDisk().some(f => f.id === workId)
   }
 
   // ─── 下载管理 ──────────────────────────────────────────────

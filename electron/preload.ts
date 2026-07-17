@@ -25,6 +25,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   asmrCancelDownload: (taskId: string) => ipcRenderer.invoke('asmr-cancel-download', taskId),
   asmrGetDownloadProgress: (taskId: string) => ipcRenderer.invoke('asmr-get-download-progress', taskId),
   asmrGetAllDownloads: () => ipcRenderer.invoke('asmr-get-all-downloads'),
+  asmrGetFavorites: () => ipcRenderer.invoke('asmr-get-favorites'),
+  asmrAddFavorite: (work: any) => ipcRenderer.invoke('asmr-add-favorite', work),
+  asmrRemoveFavorite: (workId: number) => ipcRenderer.invoke('asmr-remove-favorite', workId),
+  asmrIsFavorited: (workId: number) => ipcRenderer.invoke('asmr-is-favorited', workId),
 
   // ─── 事件监听 ───
   onDownloadProgress: (callback: (progress: any) => void) => {

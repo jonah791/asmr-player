@@ -12,7 +12,8 @@ export class SubtitleManager {
       if (window.electronAPI?.readTextFile) {
         content = await window.electronAPI.readTextFile(filePath)
       } else {
-        const response = await fetch(`file://${filePath}`)
+        const url = filePath.startsWith('http://') || filePath.startsWith('https://') ? filePath : `file://${filePath}`
+        const response = await fetch(url)
         content = await response.text()
       }
 

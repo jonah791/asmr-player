@@ -367,11 +367,19 @@ ipcMain.handle('scan-default-paths', async () => {
 })
 
 ipcMain.handle('read-text-file', async (_event, filePath: string) => {
+  // 支持远程 URL 字幕，移除 #ext.xxx 格式标记
+  const url = filePath.replace(/#ext\.\w+$/, '')
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(10000) })
+      return await res.text()
+    } catch { return null }
+  }
   try {
-    return fs.readFileSync(filePath, 'utf-8')
+    return fs.readFileSync(url, 'utf-8')
   } catch {
     try {
-      return fs.readFileSync(filePath, 'utf16le')
+      return fs.readFileSync(url, 'utf16le')
     } catch {
       return null
     }
@@ -443,4 +451,20 @@ ipcMain.handle('asmr-get-download-progress', async (_event, taskId: string) => {
 
 ipcMain.handle('asmr-get-all-downloads', async () => {
   return asmrClient.getAllDownloads()
+})
+
+ipcMain.handle('asmr-get-favorites', async () => {
+  return asmrClient.getLocalFavorites()
+})
+
+ipcMain.handle('asmr-add-favorite', async (_event, work: { id: number; title: string; mainCoverUrl?: string; thumbnailCoverUrl?: string }) => {
+  asmrClient.addLocalFavorite(work)
+})
+
+ipcMain.handle('asmr-remove-favorite', async (_event, workId: number) => {
+  asmrClient.removeLocalFavorite(workId)
+})
+
+ipcMain.handle('asmr-is-favorited', async (_event, workId: number) => {
+  return asmrClient.isFavorited(workId)
 })

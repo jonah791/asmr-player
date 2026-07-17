@@ -7,6 +7,9 @@ import { enhanceSubtitleEntries } from './SubtitleEnhancer'
 
 function detectFormat(filePath: string): SubtitleFormat | null {
   const ext = filePath.toLowerCase()
+  // 支持 URL 后附加的 #ext.xxx 格式标记
+  const hashMatch = ext.match(/#ext\.(srt|lrc|vtt|ass|ssa|txt)$/)
+  if (hashMatch) return hashMatch[1] as SubtitleFormat
   if (ext.endsWith('.srt')) return 'srt'
   if (ext.endsWith('.lrc')) return 'lrc'
   if (ext.endsWith('.vtt')) return 'vtt'

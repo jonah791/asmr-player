@@ -77,6 +77,22 @@ export function ASMRPanel() {
     window.dispatchEvent(new CustomEvent('asmr-play', { detail: track }))
   }, [])
 
+  const handleGetFavorites = useCallback(async () => {
+    return window.electronAPI.asmrGetFavorites()
+  }, [])
+
+  const handleAddFavorite = useCallback(async (work: { id: number; title: string; mainCoverUrl?: string; thumbnailCoverUrl?: string }) => {
+    await window.electronAPI.asmrAddFavorite(work)
+  }, [])
+
+  const handleRemoveFavorite = useCallback(async (workId: number) => {
+    await window.electronAPI.asmrRemoveFavorite(workId)
+  }, [])
+
+  const handleGetWorkDetail = useCallback(async (workId: number) => {
+    return window.electronAPI.asmrGetWorkDetail(workId)
+  }, [])
+
   const handleCancelDownload = useCallback(async (taskId: string) => {
     await window.electronAPI.asmrCancelDownload(taskId)
     window.electronAPI.asmrGetAllDownloads().then(setDownloads)
@@ -117,19 +133,20 @@ export function ASMRPanel() {
         </button>
       </div>
 
-      {activeTab === 'browse' ? (
-        <ASMRBrowser
+      <ASMRBrowser
           onSearch={handleSearch}
           onGetWorks={handleGetWorks}
           onGetTracks={handleGetTracks}
           onStartDownload={handleStartDownload}
           onPlay={handlePlay}
+          onGetFavorites={handleGetFavorites}
+          onAddFavorite={handleAddFavorite}
+          onRemoveFavorite={handleRemoveFavorite}
+          onGetWorkDetail={handleGetWorkDetail}
           coverUrlFn={coverUrlFn}
           downloads={downloads}
         />
-      ) : (
-        <ASMRDownloads downloads={downloads} onCancel={handleCancelDownload} />
-      )}
+      {activeTab === 'downloads' && <ASMRDownloads downloads={downloads} onCancel={handleCancelDownload} />}
     </div>
   )
 }

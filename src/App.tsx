@@ -18,6 +18,13 @@ import { ASMRPanel } from './components/ASMR/ASMRPanel'
 
 type Panel = 'none' | 'playlist' | 'channel' | 'eq' | 'subtitle' | 'transcript' | 'asmr'
 
+/** 封面 URL 处理：本地路径加 file:// 前缀，远程 URL 直接使用 */
+function coverSrc(url?: string): string {
+  if (!url) return ''
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('file://')) return url
+  return `file://${url}`
+}
+
 function TabIcon({ panel }: { panel: Panel }) {
   const props = { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '1.5', style: { width: 'var(--text-lg)', height: 'var(--text-lg)', display: 'block' } as React.CSSProperties }
   switch (panel) {
@@ -146,7 +153,7 @@ export default function App() {
       {activePanel === 'subtitle' && <SubtitleSettings />}
       {activePanel === 'channel' && <ChannelControl left={settings.channelLeft} right={settings.channelRight} onChange={updateChannel} />}
       {activePanel === 'eq' && <Equalizer bands={settings.eqBands} preset={settings.eqPreset} onChange={updateEQ} onPresetChange={setEQPreset} />}
-      {activePanel === 'asmr' && <ASMRPanel />}
+      <div style={{ display: activePanel === 'asmr' ? '' : 'none', height: '100%' }}><ASMRPanel /></div>
     </div>
   ) : null
 
@@ -156,7 +163,7 @@ export default function App() {
       {currentTrack ? (
         <div style={nowPlayingStyle}>
           <div style={coverAreaStyle}>
-            {haveCover ? <img src={`file://${currentTrack.workCover}`} alt="" style={coverArtStyle} /> : (
+            {haveCover ? <img src={coverSrc(currentTrack.workCover)} alt="" style={coverArtStyle} /> : (
               <div style={coverPlaceholderStyle}>
                 <svg width="40%" height="40%" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.15"><circle cx="12" cy="12" r="10" /><path d="M9 8v8l7-4-7-4z" /></svg>
               </div>
@@ -187,7 +194,8 @@ export default function App() {
         <PlayerControls isPlaying={engine.isPlaying} isPaused={engine.isPaused} currentTime={engine.currentTime} duration={engine.duration}
           volume={settings.volume} currentTrack={currentTrack} playMode={settings.playMode}
           onTogglePlay={engine.togglePlay} onSeek={engine.seek} onVolumeChange={updateVolume}
-          onPlayModeChange={handlePlayMode} loading={loading} onPrev={handlePrev} onNext={handleNext} />
+          onPlayModeChange={handlePlayMode} loading={loading} onPrev={handlePrev} onNext={handleNext}
+          onShowPlaylist={() => setActivePanel('playlist')} onShowWorkDetail={() => setActivePanel('asmr')} />
       </div>
     </>
   )

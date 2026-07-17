@@ -166,6 +166,13 @@ export interface TrackWithWork {
   streamUrl?: string       // 远程流媒体 URL（ASMR.one 在线播放）
 }
 
+export interface LocalFavorite {
+  id: number
+  title: string
+  coverUrl: string
+  addedAt: number
+}
+
 export interface ElectronAPI {
   openFiles: () => Promise<Work[]>
   scanFolderDrop: (paths: string[]) => Promise<Work[]>
@@ -185,6 +192,10 @@ export interface ElectronAPI {
   asmrCancelDownload: (taskId: string) => Promise<void>
   asmrGetDownloadProgress: (taskId: string) => Promise<DownloadProgress | null>
   asmrGetAllDownloads: () => Promise<DownloadTask[]>
+  asmrGetFavorites: () => Promise<LocalFavorite[]>
+  asmrAddFavorite: (work: { id: number; title: string; mainCoverUrl?: string; thumbnailCoverUrl?: string }) => Promise<void>
+  asmrRemoveFavorite: (workId: number) => Promise<void>
+  asmrIsFavorited: (workId: number) => Promise<boolean>
   onDownloadProgress: (callback: (progresses: DownloadProgress[]) => void) => () => void
   asmrGetConfig: () => Promise<ASMRConfig | null>
   asmrSaveConfig: (config: ASMRConfig) => Promise<void>
