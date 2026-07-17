@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
-import type { ASMRConfig, KikoeruWork, KikoeruTrackNode, DownloadTask, DownloadProgress } from '../../types'
+import type { ASMRConfig, KikoeruWork, KikoeruTrackNode, DownloadTask, DownloadProgress, TrackWithWork } from '../../types'
 import { ASMRLogin } from './ASMRLogin'
 import { ASMRBrowser } from './ASMRBrowser'
 import { ASMRDownloads } from './ASMRDownloads'
@@ -72,6 +72,11 @@ export function ASMRPanel() {
     return window.electronAPI.asmrStartDownload(workId, trackIndex, '')
   }, [])
 
+  const handlePlay = useCallback((track: TrackWithWork) => {
+    // 通过自定义事件通知 App.tsx 播放
+    window.dispatchEvent(new CustomEvent('asmr-play', { detail: track }))
+  }, [])
+
   const handleCancelDownload = useCallback(async (taskId: string) => {
     await window.electronAPI.asmrCancelDownload(taskId)
     window.electronAPI.asmrGetAllDownloads().then(setDownloads)
@@ -118,6 +123,7 @@ export function ASMRPanel() {
           onGetWorks={handleGetWorks}
           onGetTracks={handleGetTracks}
           onStartDownload={handleStartDownload}
+          onPlay={handlePlay}
           coverUrlFn={coverUrlFn}
           downloads={downloads}
         />

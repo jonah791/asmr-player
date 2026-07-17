@@ -403,12 +403,12 @@ ipcMain.handle('asmr-save-config', async (_event, config) => {
   return asmrClient.login(config)
 })
 
-ipcMain.handle('asmr-search', async (_event, keyword: string, page: number) => {
-  return asmrClient.search(keyword, page)
+ipcMain.handle('asmr-search', async (_event, keyword: string, page: number, subtitleOnly?: boolean) => {
+  return asmrClient.search(keyword, page, subtitleOnly)
 })
 
-ipcMain.handle('asmr-get-works', async (_event, page: number, order?: string, sort?: string) => {
-  return asmrClient.getWorks(page, order, sort)
+ipcMain.handle('asmr-get-works', async (_event, page: number, order?: string, sort?: string, subtitleOnly?: boolean) => {
+  return asmrClient.getWorks(page, order, sort, subtitleOnly)
 })
 
 ipcMain.handle('asmr-get-work-detail', async (_event, workId: number) => {

@@ -111,7 +111,9 @@ export class AudioEngine {
     this.stop()
     this.ensureContext()
     this.currentTrack = track
-    const response = await fetch(`file://${track.track.file}`)
+    // 支持远程 URL 和本地文件
+    const url = track.streamUrl || `file://${track.track.file}`
+    const response = await fetch(url)
     if (id !== this.loadId) return
     const arrayBuffer = await response.arrayBuffer()
     if (id !== this.loadId) return

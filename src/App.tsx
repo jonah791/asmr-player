@@ -94,6 +94,17 @@ export default function App() {
     window.addEventListener('keydown', handler); return () => window.removeEventListener('keydown', handler)
   }, [engine.ref, settings.volume, updateVolume, settings.subtitleEnabled, updateSubtitle])
 
+  // ASMR.one 在线播放
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const track = (e as CustomEvent).detail
+      setLoading(true)
+      engine.loadTrack(track).finally(() => setLoading(false))
+    }
+    window.addEventListener('asmr-play', handler)
+    return () => window.removeEventListener('asmr-play', handler)
+  }, [engine])
+
   const currentTrack = engine.currentTrack
   const subtitleManager = engine.subtitleManager
 

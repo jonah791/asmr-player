@@ -323,14 +323,16 @@ class ASMRClient {
   }
 
   /** 获取作品列表 */
-  async getWorks(page = 1, order = 'release', sort = 'desc'): Promise<KikoeruWorksResponse> {
+  async getWorks(page = 1, order = 'release', sort = 'desc', subtitleOnly = false): Promise<KikoeruWorksResponse> {
     const params = new URLSearchParams({ page: String(page), order, sort })
+    if (subtitleOnly) params.set('subtitle', '1')
     return this.request<KikoeruWorksResponse>(`/api/works?${params}`)
   }
 
   /** 搜索作品 */
-  async search(keyword: string, page = 1): Promise<KikoeruWorksResponse> {
+  async search(keyword: string, page = 1, subtitleOnly = false): Promise<KikoeruWorksResponse> {
     const params = new URLSearchParams({ keyword, page: String(page) })
+    if (subtitleOnly) params.set('subtitle', '1')
     return this.request<KikoeruWorksResponse>(`/api/search?${params}`)
   }
 

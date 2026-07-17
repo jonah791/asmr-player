@@ -163,6 +163,7 @@ export interface TrackWithWork {
   workName: string
   workPath: string
   workCover?: string
+  streamUrl?: string       // 远程流媒体 URL（ASMR.one 在线播放）
 }
 
 export interface ElectronAPI {
@@ -175,8 +176,8 @@ export interface ElectronAPI {
   readTextFile: (path: string) => Promise<string | null>
   // ─── ASMR.one API ───
   asmrLogin: (config: ASMRConfig) => Promise<{ success: boolean; error?: string }>
-  asmrSearch: (keyword: string, page: number) => Promise<KikoeruWorksResponse>
-  asmrGetWorks: (page: number, order?: string, sort?: string) => Promise<KikoeruWorksResponse>
+  asmrSearch: (keyword: string, page: number, subtitleOnly?: boolean) => Promise<KikoeruWorksResponse>
+  asmrGetWorks: (page: number, order?: string, sort?: string, subtitleOnly?: boolean) => Promise<KikoeruWorksResponse>
   asmrGetWorkDetail: (workId: number) => Promise<KikoeruWork>
   asmrGetTracks: (workId: number) => Promise<KikoeruTrackNode[]>
   asmrGetCoverUrl: (workId: number) => Promise<string>
@@ -248,6 +249,12 @@ export interface KikoeruWork {
   source_id?: string         // 例如 "RJ01611156"
   source_type?: string
   circle?: { id: number; name: string; source_id: string; source_type: string }
+  translation_info?: {
+    lang?: string
+    is_child?: boolean
+    is_parent?: boolean
+    is_original?: boolean
+  }
   other_language_editions_in_db?: {
     id: number; lang: string; title: string; source_id: string
     is_original: boolean; source_type: string
